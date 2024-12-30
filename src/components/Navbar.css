@@ -1,0 +1,109 @@
+/* Estilo general del Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000;
+    color: #fff;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  /* Sección izquierda (logo y título) */
+  .navbar-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-logo {
+    text-decoration: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-logo-img {
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .navbar-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  /* Botones */
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Separación de los botones del borde derecho */
+  }
+  
+  /* Toggle button para pantallas pequeñas */
+  .navbar-toggle {
+    display: none;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 40px;
+  }
+  
+  .navbar-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4d4d4d;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .navbar-btn:hover {
+    background-color: #818181;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .navbar-right {
+      flex-direction: column;
+    }
+  
+    .navbar-menu {
+      width: 100%;
+      display: none;
+      justify-content: center;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background-color: #000;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      padding: 10px;
+    }
+  
+    .navbar-menu.open {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  
+    .navbar-toggle {
+      display: block;
+      padding-right: 40px;
+    }
+  }
+  

@@ -1,0 +1,78 @@
+/* Estilos para el contenedor de la lista */
+.product-list-container {
+  padding-top: 80px;
+  margin: 0 auto;
+  max-width: 90%;
+  min-height: 100vh;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.product-table th,
+.product-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.product-table th {
+  background-color: #f4f4f4;
+}
+
+.product-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.product-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #424242;
+  color: white;
+  border: none;
+  border-radius: 3px;
+}
+
+button:hover {
+  background-color: #535353;
+}
+
+/* Mensaje en dispositivos móviles */
+.mobile-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  text-align: center;
+}
+
+.mobile-message p {
+  font-size: 18px;
+  color: #555;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .product-table th,
+  .product-table td {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .product-list-container {
+    padding: 10px;
+  }
+
+  button {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+}
