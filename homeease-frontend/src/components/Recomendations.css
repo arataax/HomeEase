@@ -1,0 +1,193 @@
+body {
+    background-color: #f4f4f4;
+}
+
+/* Contenedor principal de recomendaciones */
+.recomendations-container {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .filter-container {
+    margin-bottom: 20px;
+  }
+  .filter-container h3 {
+    margin-top: 0;
+  }
+  
+  .category-filters {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .category-filters label {
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  
+  .filter-button {
+    background-color: #2572ff;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  .clear-filter-button{
+    background-color: #ff3b3b;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .filter-button:hover {
+    background-color: #0059ff;
+  }
+  .clear-filter-button:hover {
+    background-color: #ff2525;
+  }
+  
+  .filtered-products-count {
+    margin-top: 10px;
+  }
+
+  .filter-button-container{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+  }
+  
+  /* Título de la sección */
+  .recommendations-container h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Grid para las tarjetas */
+  .recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas por defecto */
+    gap: 20px; /* Espaciado entre tarjetas */
+    justify-items: center; /* Centra las tarjetas en el grid */
+  }
+  
+  /* Estilos de cada tarjeta */
+  .product-card {
+    display: flex; /* Flexbox para alinear imagen y texto */
+    flex-direction: column; /* Imagen arriba y texto abajo */
+    align-items: center; /* Centra todos los elementos */
+    text-align: center; /* Centra los textos */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 100%; /* Asegura que las tarjetas tengan el mismo ancho */
+    max-width: 300px; /* Controla el tamaño máximo de las tarjetas */
+  }
+  
+  /* Contenedor de la imagen */
+  .product-image-container {
+    width: 100%; /* Asegura que el contenedor de imagen ocupe todo el ancho */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Estilos para la imagen */
+  .product-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 150px; /* Tamaño uniforme para todas las imágenes */
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  /* Contenedor de los detalles del producto */
+  .product-details-container {
+    margin-top: 15px; /* Espaciado entre la imagen y los textos */
+  }
+  
+  /* Estilo del título */
+  .product-details-container h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Estilo del texto descriptivo */
+  .product-details-container p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  /* Botón de detalle */
+  .details-button {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: #2e2e2e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+  }
+  
+  .details-button:hover {
+    background-color: #5f5f5f;
+  }
+
+  .filter-toggle-container {
+    display: flex;
+    justify-content: flex-start; /* Alinea el botón a la izquierda */
+    width: 100px;
+    margin-top: 50px;
+  }
+
+  .filter-toggle-button {
+    font-size: 18px;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .filter-toggle-button:hover {
+    color: #0059ff;
+  }
+  
+  /* Responsividad */
+  @media screen and (max-width: 1200px) {
+    .recommendations-grid {
+      grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas medianas */
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .recommendations-grid {
+      grid-template-columns: 1fr; /* 1 columna en pantallas pequeñas */
+    }
+  
+    .product-card {
+      max-width: 100%; /* La tarjeta ocupa todo el ancho */
+    }
+  
+    .product-image {
+      max-height: 200px; /* Ajusta la altura máxima para pantallas pequeñas */
+    }
+  }
+  
+  

@@ -1,0 +1,90 @@
+form {
+    padding-top: 100px;
+    height: 81vh;
+}
+
+/* Estilos generales para el formulario */
+.add-product-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-product-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #343a40;
+  text-align: center;
+}
+
+/* Estilos para los inputs */
+.add-product-container input,
+.add-product-container button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  font-size: 16px;
+}
+
+.add-product-container select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  font-size: 16px;
+}
+
+.add-product-container input:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+}
+
+.add-product-container input[type="file"] {
+  padding: 5px;
+  font-size: 14px;
+}
+
+/* Botón */
+.add-product-container button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-product-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Mensajes de validación */
+.validation-message {
+  color: #dc3545;
+  font-size: 14px;
+  text-align: left;
+  width: 100%;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .add-product-container {
+    padding: 15px;
+    width: 90%;
+  }
+
+  .add-product-container input,
+  .add-product-container button {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,96 @@
+/* Estilos para el contenedor de la lista */
+.product-list-container {
+  padding-top: 80px;
+  margin: 0 auto;
+  max-width: 90%;
+  min-height: 100vh;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.product-table th,
+.product-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.product-table th {
+  background-color: #4b4b4b;
+}
+
+.product-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.product-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.save-btn, .cancel-btn, .edit-btn, .delete-btn {
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.save-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.edit-btn {
+  background-color: #008cff;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+}
+.save-btn:hover {
+  background-color: #34c439;
+}
+
+.cancel-btn:hover {
+  background-color: #f52a1b;
+}
+
+.edit-btn:hover {
+  background-color: #006eff;
+}
+
+.delete-btn:hover {
+  background-color: #ff1100;
+}
+
+/* Mensaje en dispositivos móviles */
+.mobile-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  text-align: center;
+}
+
+.mobile-message {
+  font-size: 18px;
+  color: #f50000;
+  background-color: #ff000023;
+}

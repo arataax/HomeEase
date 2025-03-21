@@ -1,0 +1,150 @@
+/* Estilo general del contenedor del producto */
+.product-detail-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Estilo para el header del producto */
+.product-detail-header {
+  display: flex;
+  justify-content: center; /* Centra el título */
+  align-items: center;
+  padding: 20px;
+  position: relative; /* Para posicionar el botón absolutamente en el borde */
+  margin-top: 100px;
+}
+
+.product-title {
+  font-size: 24px;
+  margin: 0;
+}
+
+.back-button {
+  position: absolute;
+  left: 10px; /* Coloca el botón al borde izquierdo */
+  top: 50%; /* Centra el botón verticalmente */
+  transform: translateY(-50%); /* Ajusta la posición del botón */
+  background-color: transparent;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.back-button:hover {
+  background-color: transparent;
+  color: rgb(31, 28, 206);
+}
+
+/* Estilo para el cuerpo del producto */
+.product-detail-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 0;
+}
+
+.product-detail-image {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.product-description,
+.product-price,
+.product-stock {
+  font-size: 18px;
+  color: #555;
+}
+
+/* Estilo de la sección de características */
+.product-features-product-detail {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 30px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.features-title-product-detail {
+  font-size: 24px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #333;
+}
+
+.features-list-product-detail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.feature-item-product-detail {
+  display: flex;
+  align-items: center;
+  background-color: #e1e1e1;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.feature-icon-product-detail {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.feature-name-product-detail {
+  font-weight: bold;
+  color: #333;
+}
+
+.no-features-product-detail {
+  font-size: 18px;
+  color: #888;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product-detail-container {
+    padding: 10px;
+  }
+
+  .product-title {
+    font-size: 28px;
+  }
+
+  .product-detail-image {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  .features-list {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .feature-item {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .feature-icon {
+    font-size: 24px;
+  }
+
+  .back-button {
+    margin-right: 100px;
+  }
+
+  .product-features-product-detail{
+    width: 60%;
+  }
+}

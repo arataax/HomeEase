@@ -1,0 +1,90 @@
+.title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+
+/* Estilo del contenedor principal del formulario de registro */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 250px;
+}
+
+/* Estilo general del formulario */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: white;
+}
+
+.inputs-container{
+    display: flex;
+    flex-direction: column;
+    margin: 50px;
+}
+
+/* Estilo de los inputs del formulario de registro */
+.register-input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Estilo del botón de enviar */
+.register-button {
+    padding: 10px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register-button:hover {
+    background-color: #0056b3;
+}
+
+.password-icon{
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.password-icon i {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    padding-bottom: 65px;
+}
+
+.register-input-password{
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Media queries para ajustar el diseño en dispositivos más pequeños */
+@media (max-width: 768px) {
+    .register-form {
+        padding: 15px;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}
+
+
