@@ -4,6 +4,7 @@ import './Login.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useAuth } from '../components/AuthContext'; // Ajusta la ruta si es necesario
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const [credentials, setCredentials] = useState({
@@ -55,7 +56,7 @@ const Login = () => {
                         />
                         <input
                             className='login-input'
-                            type={showPassword ? "text" : "password"} 
+                            type={showPassword ? "text" : "password"}
                             name="password"
                             value={credentials.password}
                             onChange={handleChange}
@@ -71,6 +72,10 @@ const Login = () => {
                     </div>
                     {error && <p className='login-error'>{error}</p>}
                 </form>
+                <p>
+                    Si no te registraste, crea una cuenta haciendo click{' '}
+                    <Link to="/register" className="register-link">acá</Link>.
+                </p>
             </div>
         </div>
     );

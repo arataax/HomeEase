@@ -95,3 +95,24 @@
   justify-content: center;
   font-size: 30px;
 }
+
+.edit-button{
+  background-color: #008cff;
+}
+.edit-button:hover{
+  background-color: #008cffa4;
+}
+
+.delete-button{
+  background-color: #ff2c2c;
+}
+.delete-button:hover{
+  background-color: #ff0e0e;
+}
+
+.save-button{
+  background-color: #1adf00;
+}
+.save-button:hover{
+  background-color: #00b60f;
+}

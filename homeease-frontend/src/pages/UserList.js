@@ -20,27 +20,33 @@ const UserList = () => {
     return () => window.removeEventListener('resize', checkIfMobile); // Limpiar listener
   }, []);
 
-   // Cargar los usuarios al montar el componente
+  // Cargar los usuarios al montar el componente
   useEffect(() => {
     const fetchUsers = async () => {
-        const storedUsers = localStorage.getItem('users'); // Verificar si hay usuarios guardados
+      try {
+        // Intentar obtener los usuarios desde el localStorage
+        const storedUsers = localStorage.getItem('users');
         if (storedUsers) {
-            // Si hay usuarios guardados en localStorage, los cargamos
-            setUsers(JSON.parse(storedUsers));  // Establecer los usuarios directamente
+          // Si están en el localStorage, los cargamos
+          setUsers(JSON.parse(storedUsers)); 
         } else {
-            try {
-                // Si no hay usuarios guardados, los obtenemos desde el backend
-                const response = await axios.get("http://localhost:8080/api/users");
-                const usersFromAPI = response.data;
-                setUsers(usersFromAPI); // Guarda los usuarios en el estado
-                localStorage.setItem('users', JSON.stringify(usersFromAPI)); // Guardar en localStorage
-            } catch (error) {
-                console.error("Error al cargar usuarios", error);
-            }
+          // Si no están en el localStorage, los obtenemos desde el backend
+          const response = await axios.get("http://localhost:8080/api/users");
+          const usersFromAPI = response.data;
+
+          // Actualizamos el estado con los usuarios del backend
+          setUsers(usersFromAPI); 
+
+          // Guardamos los usuarios en el localStorage para persistencia
+          localStorage.setItem('users', JSON.stringify(usersFromAPI)); 
         }
+      } catch (error) {
+        console.error("Error al cargar usuarios", error);
+      }
     };
+
     fetchUsers();
-  }, []); // Solo se ejecuta cuando el componente se monta // Se ejecuta solo una vez cuando el componente se monta// Solo se ejecuta cuando el componente se monta
+  }, []); // Solo se ejecuta cuando el componente se monta
 
   if (isMobile) {
     return (
@@ -60,55 +66,50 @@ const UserList = () => {
 
   const makeAdmin = async (userId) => {
     try {
-        const response = await axios.patch(
-            `http://localhost:8080/api/users/makeAdmin/${userId}`,
-            { isAdmin: true }
-        );
-        const updatedUser = response.data;
+      await axios.patch(
+        `http://localhost:8080/api/users/makeAdmin/${userId}`,
+        { isAdmin: true }
+      );
 
-        // Actualizar el estado de los usuarios directamente en el array
-        const updatedUsers = users.map(user =>
-            user.id === userId ? { ...user, isAdmin: true } : user
-        );
+      // Actualizamos el estado de los usuarios en el array
+      const updatedUsers = users.map(u =>
+        u.id === userId ? { ...u, isAdmin: true } : u
+      );
+      setUsers(updatedUsers);
 
-        setUsers(updatedUsers);  // Actualizamos el estado con el nuevo array de usuarios
+      // Guardar la lista actualizada en localStorage
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
 
-        // Guardar la lista actualizada en localStorage
-        localStorage.setItem('users', JSON.stringify(updatedUsers));
-
-        alert("El usuario ahora es admin!");
+      alert("El usuario ahora es admin!");
     } catch (error) {
-        console.error("Error al hacer admin:", error);
-        alert("Error al hacer admin");
+      console.error("Error al hacer admin:", error);
+      alert("Error al hacer admin");
     }
   };
 
   const removeAdmin = async (userId) => {
-      try {
-          const response = await axios.patch(
-              `http://localhost:8080/api/users/removeAdmin/${userId}`,
-              { isAdmin: false }
-          );
-          const updatedUser = response.data;
+    try {
+      await axios.patch(
+        `http://localhost:8080/api/users/removeAdmin/${userId}`,
+        { isAdmin: false }
+      );
 
-          // Actualizar el estado de los usuarios directamente en el array
-          const updatedUsers = users.map(user =>
-              user.id === userId ? { ...user, isAdmin: false } : user
-          );
+      // Actualizamos el estado de los usuarios en el array
+      const updatedUsers = users.map(u =>
+        u.id === userId ? { ...u, isAdmin: false } : u
+      );
+      setUsers(updatedUsers);
 
-          setUsers(updatedUsers);  // Actualizamos el estado con el nuevo array de usuarios
+      // Guardar la lista actualizada en localStorage
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
 
-          // Guardar la lista actualizada en localStorage
-          localStorage.setItem('users', JSON.stringify(updatedUsers));
-
-          alert("El usuario ya no es admin!");
-      } catch (error) {
-          console.error("Error al quitar admin:", error);
-          alert("Error al quitar admin");
-      }
+      alert("El usuario ya no es admin!");
+    } catch (error) {
+      console.error("Error al quitar admin:", error);
+      alert("Error al quitar admin");
+    }
   };
 
-  
   return (
     <div className="user-list-container">
       <h1 className="user-list-title">Lista de Usuarios</h1>
@@ -123,27 +124,27 @@ const UserList = () => {
           </tr>
         </thead>
         <tbody>
-            {users.map(user => (
-                <tr key={user.id} className={user.isAdmin ? 'admin-row' : ''}>
-                    <td>{user.id}</td>
-                    <td>{user.firstName} {user.lastName}</td>
-                    <td>{user.email}</td>
-                    <td>
-                        <button 
-                            onClick={() => makeAdmin(user.id)} 
-                            className="make-admin-btn"
-                        >
-                            Hacer Admin
-                        </button>
-                        <button 
-                            onClick={() => removeAdmin(user.id)} 
-                            className="remove-admin-btn"
-                        >
-                            Quitar Admin
-                        </button>
-                    </td>
-                </tr>
-            ))}
+          {users.map(user => (
+            <tr key={user.id} className={user.isAdmin ? 'admin-row' : ''}>
+              <td>{user.id}</td>
+              <td>{user.firstName} {user.lastName}</td>
+              <td>{user.email}</td>
+              <td>
+                <button
+                  onClick={() => makeAdmin(user.id)}
+                  className="make-admin-btn"
+                >
+                  Hacer Admin
+                </button>
+                <button
+                  onClick={() => removeAdmin(user.id)}
+                  className="remove-admin-btn"
+                >
+                  Quitar Admin
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
@@ -151,4 +152,3 @@ const UserList = () => {
 };
 
 export default UserList;
-

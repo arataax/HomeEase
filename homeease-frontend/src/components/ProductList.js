@@ -92,13 +92,13 @@ const ProductList = () => {
         console.error("Error al guardar la categoría:", error);
         alert("Error al guardar la categoría");
       });
-  };   
+  };
 
   // Mostrar un mensaje si se accede desde un dispositivo móvil
   if (isMobile) {
     return (
       <div className="mobile-message">
-        <p>La lista de productos no está disponible en dispositivos móviles.</p>
+        <h1>Panel de administración no disponible en dispositivos móviles.</h1>
       </div>
     );
   }

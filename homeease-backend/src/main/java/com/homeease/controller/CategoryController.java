@@ -76,4 +76,12 @@ public class CategoryController {
         Files.write(path, image.getBytes());
         return fileName;
     }
+
+
+    // Método para eliminar una categoría
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+        return ResponseEntity.noContent().build(); // Respuesta HTTP 204: No Content
+    }
 }

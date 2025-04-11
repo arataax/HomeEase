@@ -85,6 +85,9 @@
         box-shadow: none;
         border: 1px solid #ddd;
     }
+    .register-button{
+        width: 85%;
+    }
 }
 
 

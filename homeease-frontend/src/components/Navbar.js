@@ -39,6 +39,7 @@ const Navbar = () => {
                     <button onClick={() => window.location.href = `/administracion`} className="navbar-admin-btn">
                         Administración
                     </button>
+                  <button onClick={() => window.location.href = `/favorites`} className="navbar-user-favorite">Favoritos</button>
                   <button onClick={logout} className="navbar-user-btn">Cerrar sesión</button>
                 </div>
               )}

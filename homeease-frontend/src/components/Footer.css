@@ -1,5 +1,6 @@
 footer{
   background-color: #1b1b1b;
+  width: 100vw;
 }
 
 .footer-container { /* Fija el footer en la parte inferior */

@@ -6,7 +6,7 @@ import { useAuth } from '../components/AuthContext';
 
 const ProductFeatures = () => {
   const { id: productId } = useParams();
-  const { name: productName } = useParams();
+  const [productName, setProductName] = useState('');
   const [features, setFeatures] = useState([]);
   const [newFeature, setNewFeature] = useState({ name: '', icon: '' });
   const [selectedIcon, setSelectedIcon] = useState('');
@@ -26,6 +26,21 @@ const ProductFeatures = () => {
 
     if (productId) {
       fetchFeatures();
+    }
+  }, [productId]);
+
+  useEffect(() => {
+    const fetchProductName = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/products/${productId}`);
+        setProductName(response.data.name); // Asumiendo que el backend devuelve un objeto con un campo `name`
+      } catch (error) {
+        console.error("Error al obtener el nombre del producto:", error);
+      }
+    };
+  
+    if (productId) {
+      fetchProductName();
     }
   }, [productId]);
 
@@ -136,7 +151,7 @@ const ProductFeatures = () => {
   return ( 
     <div className="product-features-container">
       <h1 className="title">Características del Producto</h1>
-      <h3 className="product-info">Producto: {}</h3>
+      <h3 className="product-info">Producto: {productName}</h3>
       <h3 className="product-info">ID: {productId}</h3>
   
       <h4 className="features-title">Características</h4>
@@ -146,9 +161,9 @@ const ProductFeatures = () => {
             <li key={feature.id} className="feature-item">
               {feature.name} - <i className={`fa ${feature.icon}`}></i>
               {/* Edit button */}
-              <button onClick={() => handleSetEditingFeature(feature.id)}>Editar</button>
+              <button onClick={() => handleSetEditingFeature(feature.id)} className='edit-button'>Editar</button>
               {/* Delete button */}
-              <button onClick={() => handleDeleteFeature(feature.id)}>Eliminar</button>
+              <button onClick={() => handleDeleteFeature(feature.id)} className='delete-button'>Eliminar</button>
               {/* Show the edit form only for the feature being edited */}
               {editingFeatureId === feature.id && (
                 <div className="edit-feature-form">
@@ -164,48 +179,46 @@ const ProductFeatures = () => {
                     onChange={(e) => setSelectedIcon(e.target.value)}
                   >
                     <option value="">Selecciona un icono</option>
-                    {/* Limpieza y Mantenimiento */}
-                    <option value="fa-broom">fa-broom</option>
-                    <option value="fa-lemon">fa-lemon</option>
                     <option value="fa-trash">fa-trash</option>
-                    <option value="fa-vacuum">fa-vacuum</option>
-                    <option value="fa-sponge">fa-sponge</option>
-                    <option value="fa-brush">fa-brush</option>
-
-                    {/* Reparaciones y Mejoras */}
-                    <option value="fa-tools">fa-tools</option>
-                    <option value="fa-hammer">fa-hammer</option>
                     <option value="fa-wrench">fa-wrench</option>
-                    <option value="fa-screwdriver">fa-screwdriver</option>
-                    <option value="fa-bolt">fa-bolt</option>
-                    <option value="fa-ruler">fa-ruler</option>
-
-                    {/* Jardinería y Exteriores */}
-                    <option value="fa-pot">fa-pot</option>
                     <option value="fa-leaf">fa-leaf</option>
-                    <option value="fa-rake">fa-rake</option>
-                    <option value="fa-spray-can">fa-spray-can</option>
-                    <option value="fa-shovel">fa-shovel</option>
                     <option value="fa-tree">fa-tree</option>
-                    <option value="fa-flower">fa-flower</option>
-
-                    {/* Cuidado de Mascotas */}
-                    <option value="fa-bone">fa-bone</option>
                     <option value="fa-paw">fa-paw</option>
-                    <option value="fa-cat">fa-cat</option>
-                    <option value="fa-dog">fa-dog</option>
                     <option value="fa-bed">fa-bed</option>
-                    <option value="fa-bowl-food">fa-bowl-food</option>
-
-                    {/* Seguridad y Protección */}
                     <option value="fa-lock">fa-lock</option>
                     <option value="fa-bell">fa-bell</option>
                     <option value="fa-video-camera">fa-video-camera</option>
-                    <option value="fa-shield-alt">fa-shield-alt</option>
+                    <option value="fa-clock-o">fa-clock</option>
+                    <option value="fa-times">fa-times</option>
+                    <option value="fa-magic">fa-magic</option>
+                    <option value="fa-cogs">fa-cogs</option>
+                    <option value="fa-thermometer-full">fa-thermometer-full</option>
+                    <option value="fa-flask">fa-flask</option>
+                    <option value="fa-home">fa-home</option>
+                    <option value="fa-building">fa-building</option>
+                    <option value="fa-usd">fa-usd</option>
+                    <option value="fa-shield">fa-shield</option>
+                    <option value="fa-paint-brush">fa-paint-brush</option>
+                    <option value="fa-picture-o">fa-picture-o</option>
+                    <option value="fa-sun-o">fa-sun-o</option>
+                    <option value="fa-tree">fa-tree</option>
+                    <option value="fa-tint">fa-tint</option>
+                    <option value="fa-flask">fa-flask</option>
+                    <option value="fa-cutlery">fa-cutlery</option>
+                    <option value="fa-bath">fa-bath</option>
+                    <option value="fa-scissors">fa-scissors</option>
+                    <option value="fa-angle-double-up">fa-angle-double-up</option>
+                    <option value="fa-bolt">fa-bolt</option>
+                    <option value="fa-user-md">fa-user-md</option>
+                    <option value="fa-h-square">fa-h-square</option>
+                    <option value="fa-desktop">fa-desktop</option>
+                    <option value="fa-volume-up">fa-volume-up</option>
+                    <option value="fa-user-secret">fa-user-secret</option>
+                    <option value="fa-line-chart">fa-line-chart</option>
+                    <option value="fa-check">fa-check</option>
                     <option value="fa-fire-extinguisher">fa-fire-extinguisher</option>
-                    <option value="fa-smoke">fa-smoke</option>
                   </select>
-                  <button onClick={handleEditFeature}>Guardar Cambios</button>
+                  <button onClick={handleEditFeature} className='save-button'>Guardar Cambios</button>
                 </div>
               )}
             </li>
@@ -228,46 +241,43 @@ const ProductFeatures = () => {
   
         <select name="icon" className="icon-select" value={selectedIcon} onChange={(e) => setSelectedIcon(e.target.value)}>
           <option value="">Selecciona un icono</option>
-            {/* Limpieza y Mantenimiento */}
-            <option value="fa-broom"><i className="fa fa-broom" /> fa-broom</option>
-            <option value="fa-lemon"><i className="fa fa-lemon" /> fa-lemon</option>
             <option value="fa-trash"><i className="fa fa-trash" /> fa-trash</option>
-            <option value="fa-vacuum"><i className="fa fa-vacuum" /> fa-vacuum</option>
-            <option value="fa-sponge"><i className="fa fa-sponge" /> fa-sponge</option>
-            <option value="fa-brush"><i className="fa fa-brush" /> fa-brush</option>
-
-            {/* Reparaciones y Mejoras */}
-            <option value="fa-tools"><i className="fa fa-tools" /> fa-tools</option>
-            <option value="fa-hammer"><i className="fa fa-hammer" /> fa-hammer</option>
             <option value="fa-wrench"><i className="fa fa-wrench" /> fa-wrench</option>
-            <option value="fa-screwdriver"><i className="fa fa-screwdriver" /> fa-screwdriver</option>
-            <option value="fa-bolt"><i className="fa fa-bolt" /> fa-bolt</option>
-            <option value="fa-ruler"><i className="fa fa-ruler" /> fa-ruler</option>
-
-            {/* Jardinería y Exteriores */}
-            <option value="fa-pot"><i className="fa fa-pot" /> fa-pot</option>
             <option value="fa-leaf"><i className="fa fa-leaf" /> fa-leaf</option>
-            <option value="fa-rake"><i className="fa fa-rake" /> fa-rake</option>
-            <option value="fa-spray-can"><i className="fa fa-spray-can" /> fa-spray-can</option>
-            <option value="fa-shovel"><i className="fa fa-shovel" /> fa-shovel</option>
             <option value="fa-tree"><i className="fa fa-tree" /> fa-tree</option>
-            <option value="fa-flower"><i className="fa fa-flower" /> fa-flower</option>
-
-            {/* Cuidado de Mascotas */}
-            <option value="fa-bone"><i className="fa fa-bone" /> fa-bone</option>
             <option value="fa-paw"><i className="fa fa-paw" /> fa-paw</option>
-            <option value="fa-cat"><i className="fa fa-cat" /> fa-cat</option>
-            <option value="fa-dog"><i className="fa fa-dog" /> fa-dog</option>
             <option value="fa-bed"><i className="fa fa-bed" /> fa-bed</option>
-            <option value="fa-bowl-food"><i className="fa fa-bowl-food" /> fa-bowl-food</option>
-
-            {/* Seguridad y Protección */}
             <option value="fa-lock"><i className="fa fa-lock" /> fa-lock</option>
             <option value="fa-bell"><i className="fa fa-bell" /> fa-bell</option>
             <option value="fa-video-camera"><i className="fa fa-video-camera" /> fa-video-camera</option>
-            <option value="fa-shield-alt"><i className="fa fa-shield-alt" /> fa-shield-alt</option>
+            <option value="fa-clock-o"><i className="fa fa-clock-o" /> fa-clock</option>
+            <option value="fa-times"><i className="fa fa-times" /> fa-times</option>
+            <option value="fa-magic"><i className="fa fa-magic" /> fa-magic</option>
+            <option value="fa-cogs"><i className="fa fa-cogs" /> fa-cogs</option>
+            <option value="fa-thermometer-full"><i className="fa fa-thermometer-full" /> fa-thermometer-full</option>
+            <option value="fa-flask"><i className="fa fa-flask" /> fa-flask</option>
+            <option value="fa-home"><i className="fa fa-home" /> fa-home</option>
+            <option value="fa-building"><i className="fa fa-building" /> fa-building</option>
+            <option value="fa-usd"><i className="fa fa-usd" /> fa-usd</option>
+            <option value="fa-shield"><i className="fa fa-shield" /> fa-shield</option>
+            <option value="fa-paint-brush"><i className="fa fa-paint-brush" /> fa-paint-brush</option>
+            <option value="fa-picture-o"><i className="fa fa-picture-o" /> fa-picture-o</option>
+            <option value="fa-sun-o"><i className="fa fa-sun-o" /> fa-sun-o</option>
+            <option value="fa-tint"><i className="fa fa-tint" /> fa-tint</option>
+            <option value="fa-flask"><i className="fa fa-flask" /> fa-flask</option>
+            <option value="fa-cutlery"><i className="fa fa-cutlery" /> fa-cutlery</option>
+            <option value="fa-bath"><i className="fa fa-bath" /> fa-bath</option>
+            <option value="fa-scissors"><i className="fa fa-scissors" /> fa-scissors</option>
+            <option value="fa-angle-double-up"><i className="fa fa-angle-double-up" /> fa-angle-double-up</option>
+            <option value="fa-bolt"><i className="fa fa-bolt" /> fa-bolt</option>
+            <option value="fa-user-md"><i className="fa fa-user-md" /> fa-user-md</option>
+            <option value="fa-h-square"><i className="fa fa-h-square" /> fa-h-square</option>
+            <option value="fa-desktop"><i className="fa fa-desktop" /> fa-desktop</option>
+            <option value="fa-volume-up"><i className="fa fa-volume-up" /> fa-volume-up</option>
+            <option value="fa-user-secret"><i className="fa fa-user-secret" /> fa-user-secret</option>
+            <option value="fa-line-chart"><i className="fa fa-line-chart" /> fa-line-chart</option>
+            <option value="fa-check"><i className="fa fa-check" /> fa-check</option>
             <option value="fa-fire-extinguisher"><i className="fa fa-fire-extinguisher" /> fa-fire-extinguisher</option>
-            <option value="fa-smoke"><i className="fa fa-smoke" /> fa-smoke</option>
         </select>
   
         <button className="add-button" onClick={handleAddFeature}>Añadir Característica</button>

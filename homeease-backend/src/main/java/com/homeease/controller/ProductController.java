@@ -1,10 +1,10 @@
 package com.homeease.controller;
 
+import com.homeease.dto.AvailabilityResponse;
 import com.homeease.dto.CategoryUpdateRequest;
 import com.homeease.model.Category;
 import com.homeease.model.Product;
 import com.homeease.repository.CategoryRepository;
-import com.homeease.repository.ProductRepository;
 import com.homeease.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,9 +18,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -137,6 +136,32 @@ public class ProductController {
     @GetMapping("/categories")
     public List<Product> getProductsByCategories(@RequestParam List<Long> categoryIds) {
         return productService.getProductsByCategories(categoryIds);
+    }
+
+    // Endpoint para realizar la búsqueda de productos
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProducts(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate
+    ) {
+        List<Product> products = productService.searchProducts(name, startDate, endDate);
+        return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/search/suggestions")
+    public List<Product> searchProducts(@RequestParam String name) {
+        return productService.searchProductsByName(name);
+    }
+
+    @GetMapping("/{id}/availability")
+    public ResponseEntity<AvailabilityResponse> getProductAvailability(@PathVariable Long id) {
+        try {
+            AvailabilityResponse availability = productService.getProductAvailability(id);
+            return ResponseEntity.ok(availability);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }
 

@@ -7,7 +7,6 @@ const AdminPanel = () => {
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
-  console.log(user);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -47,6 +46,7 @@ const AdminPanel = () => {
         <button className="admin-btn" onClick={() => navigate('/administracion/lista-usuarios')}>Lista de Usuarios</button>
         <button className="admin-btn" onClick={() => navigate('/administracion/manage-products')}>Administrar Características</button>
         <button className="admin-btn" onClick={() => navigate('/administracion/add-category')}>Agregar Categorias</button>
+        <button className="admin-btn" onClick={() => navigate('/administracion/delete-categories')}>Administrar Categorias</button>
       </div>
     </div>
   );

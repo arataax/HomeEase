@@ -1,5 +1,6 @@
 package com.homeease.service;
 
+import com.homeease.exceptions.ResourceNotFoundException;
 import com.homeease.model.Category;
 import com.homeease.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,15 @@ public class CategoryService {
     public Category saveCategory(String name, String description, String fileName) {
         Category category = new Category(name, description, fileName);
         return categoryRepository.save(category);
+    }
+
+    // Método para eliminar una categoría
+    public void deleteCategory(Long categoryId) {
+        // Verifica si la categoría existe
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+
+        // Eliminar la categoría
+        categoryRepository.delete(category);
     }
 }

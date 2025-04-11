@@ -2,19 +2,15 @@ import React from 'react';
 import './Main.css';
 import CategoriesCarousel from './CategoriesCarousel';
 import Recommendations from './recomendations';
+import Search from './Search';
 
 
 const Main = () => {
   return (
-    <main className="main-container">
+    <main>
       {/* Sección del buscador */}
-      <section className="search-bar">
-        <input
-          type="text"
-          placeholder="Buscar productos..."
-          className="search-input"
-        />
-        <button className="search-button">Buscar</button>
+      <section className='search-container'>
+        <Search/>
       </section>
 
       {/* Carrusel de categorías */}

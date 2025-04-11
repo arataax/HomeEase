@@ -21,7 +21,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/api/users/register", "/api/users/login").permitAll()  // Permitir registro y login
                         .requestMatchers("/api/users/**").permitAll()
-                        .requestMatchers("/api/categories").permitAll()
+                        .requestMatchers("/api/categories/**").permitAll()
                         .requestMatchers("/api/categories/add-category").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .anyRequest().authenticated()

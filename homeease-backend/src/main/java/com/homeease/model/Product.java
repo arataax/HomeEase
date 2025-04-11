@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,6 +38,18 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore  // Esto evitará que se serialicen las características cuando se obtenga un producto
     private List<Feature> features = new ArrayList<>();
+
+    @Column(name = "available_from")
+    private LocalDate availableFrom;
+
+    @Column(name = "available_until")
+    private LocalDate availableUntil;
+
+    public Product() {
+        this.availableFrom = LocalDate.now();
+
+        this.availableUntil = availableFrom.plusYears(1);
+    }
 
     public Long getId() {
         return id;
@@ -100,5 +113,21 @@ public class Product {
 
     public void setFeatures(List<Feature> features) {
         this.features = features;
+    }
+
+    public LocalDate getAvailableFrom() {
+        return availableFrom;
+    }
+
+    public void setAvailableFrom(LocalDate availableFrom) {
+        this.availableFrom = availableFrom;
+    }
+
+    public LocalDate getAvailableUntil() {
+        return availableUntil;
+    }
+
+    public void setAvailableUntil(LocalDate availableUntil) {
+        this.availableUntil = availableUntil;
     }
 }

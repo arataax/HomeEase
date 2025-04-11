@@ -14,6 +14,8 @@ import ManageProducts from "./pages/ManageProducts";
 import ProductFeatures from "./pages/ProductFeatures";
 import 'font-awesome/css/font-awesome.min.css';
 import AddCategory from "./pages/AddCategory";
+import Favorites from "./pages/Favorites";
+import AdminCategories from "./pages/AdminCategories";
 
 function App() {
   return (
@@ -29,10 +31,14 @@ function App() {
                 <Route path="/administracion/manage-products" element={<ManageProducts />} />
                 <Route path="/administracion/products/:id/features" element={<ProductFeatures />} />
                 <Route path="/administracion/add-category" element={<AddCategory />} />
+                <Route path="/administracion/delete-categories" element={<AdminCategories />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/favorites" element={<Favorites />} />
             </Routes>
-        <Footer />
+        <div className="footer">
+            <Footer />
+        </div>
     </Router>
 );
 }
