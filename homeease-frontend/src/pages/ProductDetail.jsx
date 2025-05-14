@@ -6,6 +6,9 @@ import 'react-calendar/dist/Calendar.css';
 import { useAuth } from '../components/AuthContext';
 import { FaHeart, FaRegHeart, FaShareAlt } from 'react-icons/fa';
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -16,7 +19,8 @@ const ProductDetail = () => {
   const [features, setFeatures] = useState([]);
   const [availableDates, setAvailableDates] = useState([]);
   const [occupiedDates, setOccupiedDates] = useState([]);
-  const [shareMessage, setShareMessage] = useState("");
+  const [shareMessage] = useState("");
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetchProductDetail = async () => {
@@ -28,13 +32,16 @@ const ProductDetail = () => {
         const data = await response.json();
         setProduct(data);
 
-        const datesResponse = await axios.get(`http://localhost:8080/api/products/${id}/availability`);
-        setAvailableDates(datesResponse.data.availableDates);
-        setOccupiedDates(datesResponse.data.occupiedDates);
+        const datesResponse = await axios.get(`http://localhost:8080/api/products/${id}/available-dates`);
+        setAvailableDates(datesResponse.data);
+        const occupiedDatesResponse = await axios.get(`http://localhost:8080/api/products/${id}/occupied-dates`);
+        setOccupiedDates(occupiedDatesResponse.data);
+
       } catch (error) {
         console.error(error);
       }
     };
+
     fetchProductDetail();
   }, [id]);
 
@@ -57,6 +64,12 @@ const ProductDetail = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
     setIsFavorite(favorites.includes(product?.id));
   }, [product?.id]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:8080/api/ratings/product/${id}`)
+      .then(response => setReviews(response.data))
+      .catch(error => console.error("Error al cargar reseñas:", error));
+  }, [id]);
 
   const handleFavoriteToggle = async () => {
     if (!user) {
@@ -93,33 +106,13 @@ const ProductDetail = () => {
     return <div>Cargando...</div>;
   }
 
-  // Para compartir en Facebook
-  const handleShareFacebook = () => {
-    const url = window.location.href; // La URL actual del producto
-    const description = product ? product.description : "¡Mira este producto!";
-    const imageUrl = product ? `http://localhost:8080${product.imageUrl}` : "";
-
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${description}&picture=${imageUrl}`, '_blank');
-  };
-
-  // Para compartir en Twitter
-  const handleShareTwitter = () => {
-    const url = window.location.href; // La URL del producto
-    const text = product ? product.name : "Producto interesante";
-    const hashtags = "HomeEase";  // Hashtags para el tweet
-
-    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}&hashtags=${hashtags}`, '_blank');
-  };
-
-  // Función general de compartir
   const handleShare = () => {
-    const url = window.location.href; // URL actual del producto
+    const url = window.location.href;
     const text = product ? product.name : "Producto interesante";
     const description = product ? product.description : "¡Mira este producto!";
     const imageUrl = product ? `http://localhost:8080${product.imageUrl}` : "";
-    const message = shareMessage ? shareMessage : ""; // Mensaje del usuario
+    const message = shareMessage ? shareMessage : "";
 
-    // Mostrar ventana emergente con contenido para compartir
     const shareWindowWidth = 600;
     const shareWindowHeight = 400;
     const left = (window.innerWidth - shareWindowWidth) / 2;
@@ -131,7 +124,6 @@ const ProductDetail = () => {
       `width=${shareWindowWidth},height=${shareWindowHeight},top=${top},left=${left}`
     );
 
-    // En la ventana emergente, muestra el contenido
     shareWindow.document.write(`
       <div style="text-align: center; font-family: Arial, sans-serif;">
         <h3>Compartir producto</h3>
@@ -143,7 +135,7 @@ const ProductDetail = () => {
           <textarea id="shareMessage" value="${message}" onchange="message = this.value"></textarea>
         </div>
         <div>
-          <button onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${description}&picture=${imageUrl}', '_blank')" style="background-color: #4267B2; color: white; padding: 10px 20px; margin: 5px; border-radius: 5px;">Compartir en Facebook</button>
+          <button onclick="alert('Facebook no permite compartir desde el navegador. Copia el enlace y pégalo manualmente.')" style="background-color: #4267B2; color: white; padding: 10px 20px; margin: 5px; border-radius: 5px;">Compartir en Facebook</button>
           <button onclick="window.open('https://twitter.com/intent/tweet?url=${url}&text=${text}&hashtags=HomeEase&message=${message}', '_blank')" style="background-color: #1DA1F2; color: white; padding: 10px 20px; margin: 5px; border-radius: 5px;">Compartir en Twitter</button>
           <button onclick="alert('Instagram no permite compartir desde el navegador. Copia el enlace y pégalo manualmente.')" style="background-color: #E4405F; color: white; padding: 10px 20px; margin: 5px; border-radius: 5px;">Compartir en Instagram</button>
         </div>
@@ -151,7 +143,33 @@ const ProductDetail = () => {
     `);
   };
 
+  const handleReserveClick = () => {
+    if (!user) {
+      alert("Debes estar logueado para hacer una reserva.");
+      navigate("/login");
+    } else {
+      navigate(`/reserve/${id}`);
+    }
+  };
 
+  const markTileClass = ({ date }) => {
+    const day = date.getDay();
+    const dateString = date.toISOString().split('T')[0];
+
+    if (day === 0 || day === 6) {
+      return 'occupied-date';
+    }
+
+    if (availableDates.includes(dateString)) {
+      return 'available-date';
+    }
+
+    if (occupiedDates.includes(dateString)) {
+      return 'occupied-date';
+    }
+
+    return '';
+  };
 
   return (
     <div className="product-detail-container">
@@ -176,9 +194,7 @@ const ProductDetail = () => {
           <button className="favorite-button" onClick={handleFavoriteToggle}>
             {isFavorite ? <FaHeart className="favorite-icon" /> : <FaRegHeart className="favorite-icon" />}
           </button>
-          {/* Botón de compartir como ícono */}
           <div className="share-button-container">
-            {/* Tooltip que aparecerá cuando el mouse pase por encima */}
             <div className="tooltip">Compartir</div>
 
             <button className="share-button" onClick={handleShare}>
@@ -187,22 +203,20 @@ const ProductDetail = () => {
           </div>
         </div>
 
-
         <div className="product-calendar">
-          <h2>Seleccionar Fecha</h2>
-          <h4>Los días resaltados de verde son los disponibles, los de rojo ya fueron reservados.</h4>
+          <h2>Fechas Disponibles</h2>
+          <h4>Los días resaltados de verde son los disponibles, los de rojo ya fueron reservados o son días inhabiles.</h4>
           <Calendar
-            tileClassName={({ date, view }) => {
-              if (availableDates.includes(date.toISOString().split('T')[0])) {
-                return 'available-date';
-              }
-              if (occupiedDates.includes(date.toISOString().split('T')[0])) {
-                return 'occupied-date';
-              }
-            }}
+            tileClassName={markTileClass}
           />
         </div>
 
+        <button
+          className="reserve-button"
+          onClick={handleReserveClick}
+        >
+          Reservar
+        </button>
 
         <section className="product-features-product-detail">
           <h2 className="features-title-product-detail">Características</h2>
@@ -218,6 +232,35 @@ const ProductDetail = () => {
               <p className="no-features-product-detail">No hay características para este producto.</p>
             )}
           </ul>
+        </section>
+        <section className="product-reviews">
+          <h2 className="review-title">Opiniones de otros usuarios</h2>
+          {reviews.length === 0 ? (
+            <p className="no-reviews">Este producto aún no tiene valoraciones.</p>
+          ) : (
+            <ul className="review-list">
+              {reviews.map((review) => (
+                <li key={review.id} className="review-item">
+                  <div className="review-stars">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <FontAwesomeIcon
+                        key={star}
+                        icon={star <= review.rating ? solidStar : regularStar}
+                        className="review-star"
+                      />
+                    ))}
+                  </div>
+                  <p className="review-user">Usuario: {review.user.firstName} {review.user.lastName}</p>
+                  <p className="review-date">
+                    Fecha: {new Date(review.createdAt).toLocaleDateString()}
+                  </p>
+                  {review.comment && (
+                    <p className="review-comment">"{review.comment}"</p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
         <section className="product-policies">
           <h2 className="policy-title">Política de Uso y Cuidado del Producto</h2>

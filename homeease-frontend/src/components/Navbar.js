@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Navbar.css";
-import { useAuth } from './AuthContext'; // Ajusta la ruta si es necesario
-import Logo from '../images/logo.webp';
+import { useAuth } from './AuthContext';
+import Logo from '../images/logo-homeEase.png';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -36,10 +36,11 @@ const Navbar = () => {
               </div>
               {dropdownOpen && (
                 <div className="navbar-dropdown">
-                    <button onClick={() => window.location.href = `/administracion`} className="navbar-admin-btn">
-                        Administración
-                    </button>
+                  <button onClick={() => window.location.href = `/administracion`} className="navbar-admin-btn">
+                    Administración
+                  </button>
                   <button onClick={() => window.location.href = `/favorites`} className="navbar-user-favorite">Favoritos</button>
+                  <button onClick={() => window.location.href = `/reservations`} className="navbar-user-reservations">Mis Reservas</button>
                   <button onClick={logout} className="navbar-user-btn">Cerrar sesión</button>
                 </div>
               )}

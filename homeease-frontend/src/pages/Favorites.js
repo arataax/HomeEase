@@ -13,7 +13,7 @@ const Favorites = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
       alert('Debes iniciar sesión para ver tus productos favoritos');
-      navigate('/login'); // Redirige al login si no está autenticado
+      navigate('/login');
       return;
     }
 
@@ -44,12 +44,10 @@ const Favorites = () => {
         headers: { Authorization: `Bearer ${user.token}` }
       });
 
-      // Actualizamos la lista de favoritos localmente después de la eliminación
-      setFavorites(favorites.filter(product => product.id !== productId)); // Filtramos el producto eliminado
+      setFavorites(favorites.filter(product => product.id !== productId));
 
-      // Sincronizamos con el localStorage
       let storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-      storedFavorites = storedFavorites.filter(fav => fav !== productId);  // Eliminar producto de favoritos en localStorage
+      storedFavorites = storedFavorites.filter(fav => fav !== productId);
       localStorage.setItem('favorites', JSON.stringify(storedFavorites));
 
     } catch (error) {
@@ -57,12 +55,10 @@ const Favorites = () => {
     }
   };
 
-  if (!user || !user.admin) {
-    return (
-      <div className="admin-message">
-        <p>No tienes permisos para acceder a esta página.</p>
-      </div>
-    )
+  if (!user) {
+    alert("Es obligatorio estar logueado para ver tus productos favoritos.");
+    navigate('/login');
+    return;
   }
 
   return (

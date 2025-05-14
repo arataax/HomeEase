@@ -56,14 +56,14 @@ const AddCategory = () => {
       setIsMobile(window.innerWidth <= 768);
     };
 
-    checkScreenSize(); // Revisar al cargar
-    window.addEventListener('resize', checkScreenSize); // Revisar en cambios
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
 
     return () => {
       window.removeEventListener('resize', checkScreenSize);
     };
   }, []);
-  
+
   if (!user || !user.admin) {
     return (
       <div className="admin-message">
@@ -83,10 +83,10 @@ const AddCategory = () => {
   return (
     <div className="add-category-container">
       <h1>Agregar Nueva Categoría</h1>
-      
+
       {error && <div className="error-message">{error}</div>}
       {success && <div className="success-message">Categoría agregada con éxito</div>}
-      
+
       <form onSubmit={handleSubmit}>
         <div className="input-container">
           <label htmlFor="name">Nombre:</label>

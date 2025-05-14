@@ -23,6 +23,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers("/api/categories/**").permitAll()
                         .requestMatchers("/api/categories/add-category").permitAll()
+                        .requestMatchers("/api/reservations/**").permitAll()
+                        .requestMatchers("/api/ratings/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -37,8 +39,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-
-
-
-//.csrf(csrf -> csrf.disable())
-

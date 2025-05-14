@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './ManageProducts.css'; 
+import './ManageProducts.css';
 import { useAuth } from '../components/AuthContext';
 
 const ManageProducts = () => {
@@ -11,10 +11,9 @@ const ManageProducts = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Obtén los productos desde el backend
     axios.get('http://localhost:8080/api/products')
       .then(response => {
-        setProducts(response.data); // Asigna los productos a estado
+        setProducts(response.data);
       })
       .catch(error => {
         console.error("Error al obtener los productos", error);
@@ -27,14 +26,14 @@ const ManageProducts = () => {
       setIsMobile(window.innerWidth <= 768);
     };
 
-    checkScreenSize(); // Revisar al cargar
-    window.addEventListener('resize', checkScreenSize); // Revisar en cambios
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
 
     return () => {
       window.removeEventListener('resize', checkScreenSize);
     };
   }, []);
-  
+
   if (!user || !user.admin) {
     return (
       <div className="admin-message">
@@ -70,7 +69,6 @@ const ManageProducts = () => {
               <td>{product.name}</td>
               <td>{product.description}</td>
               <td>
-                {/* Aquí se puede agregar un botón para administrar características */}
                 <button onClick={() => navigate(`/administracion/products/${product.id}/features`)}>Administrar Características</button>
               </td>
             </tr>

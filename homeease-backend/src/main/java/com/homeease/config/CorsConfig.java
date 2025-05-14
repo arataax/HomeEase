@@ -17,7 +17,7 @@ public class CorsConfig {
         // Permitir credenciales
         config.setAllowCredentials(true);
         // Especifica explícitamente el origen
-        config.addAllowedOrigin("http://localhost:3000"); // Aquí agregas tu origen (frontend)
+        config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 

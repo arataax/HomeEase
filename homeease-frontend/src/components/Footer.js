@@ -1,5 +1,5 @@
 import React from 'react';
-import './Footer.css'; // Archivo de estilos
+import './Footer.css';
 import Logo from '../images/logo.webp';
 import Instagram from '../images/instagram.png';
 import Twitter from '../images/twitterx.png';
@@ -13,10 +13,10 @@ const Footer = () => {
     <footer className="footer-container">
       <div className="footer-content">
         <div className="footer-left">
-            <a href="/" className="footer-logo">
-                <img src={Logo} alt="Logo" className="footer-logo-img" />
-                <span className="footer-title">HomeEase</span>
-            </a>
+          <a href="/" className="footer-logo">
+            <img src={Logo} alt="Logo" className="footer-logo-img" />
+            <span className="footer-title">HomeEase</span>
+          </a>
           <p>© {year} HomeEase. Todos los derechos reservados.</p>
         </div>
         <div className="footer-right">

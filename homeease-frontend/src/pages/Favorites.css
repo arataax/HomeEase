@@ -1,54 +1,55 @@
 .favorites-container {
-    margin-top: 100px;
-    margin-bottom: 150px;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .favorites-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .favorite-item {
-    text-align: center; /* Centra los textos */
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin: 10px;
-    padding: 15px;
-    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
-    width: 250px; /* Asegura que las tarjetas tengan el mismo ancho */
-  }
-  
-  .favorite-item img {
-    width: 100%;
-    height: auto;
-  }
-  
-  .favorite-info h2 {
-    font-size: 18px;
-    margin: 10px 0;
-  }
-  
-  .favorite-info p {
-    font-size: 14px;
-  }
-  
-  .remove-favorite-btn {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  .remove-favorite-btn:hover {
-    background-color: #d32f2f;
-  }
+  margin-top: 100px;
+  margin-bottom: 150px;
+  padding: 20px;
+  text-align: center;
+}
 
-  .no-products{
-    margin-bottom: 380px;
-  }
-  
+.favorites-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.favorite-item {
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 10px;
+  padding: 15px;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+  width: 250px;
+}
+
+.favorite-item img {
+  width: 100%;
+  height: auto;
+}
+
+.favorite-info h2 {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #333;
+}
+
+.favorite-info p {
+  font-size: 14px;
+  color: #666;
+}
+
+.remove-favorite-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.remove-favorite-btn:hover {
+  background-color: #d32f2f;
+}
+
+.no-products {
+  margin-bottom: 380px;
+}

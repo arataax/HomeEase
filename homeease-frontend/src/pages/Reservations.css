@@ -1,0 +1,163 @@
+.reservations-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    height: 100%;
+}
+
+.reservations-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.reservation-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.reservation-item h3 {
+    margin: 0;
+    color: #333;
+}
+
+.reservation-item p {
+    color: #555;
+}
+
+.no-reservations {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 70vh;
+}
+
+.cancel-reservation {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    margin: 0px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.cancel-reservation:hover {
+    background-color: #d32f2f;
+}
+
+.rating-section {
+    width: 40%;
+    margin-top: 15px;
+    border-radius: 5px;
+    color: #333;
+}
+
+.rating-comment {
+    display: block;
+    width: 300px;
+    height: 250px;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.submit-rating {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 5px;
+    margin-left: 0px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-rating:hover {
+    background-color: #45a049;
+}
+
+.star-rating {
+    display: flex;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.star-icon {
+    font-size: 24px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.star-icon:hover,
+.star-icon:hover~.star-icon {
+    color: #ffd700;
+}
+
+.star-rating .fa-star {
+    color: #ffd700;
+}
+
+@media (max-width: 768px) {
+    .reservations-container {
+        padding: 10px;
+    }
+
+    .reservations-title {
+        font-size: 1.5rem;
+    }
+
+    .reservation-item {
+        padding: 10px;
+    }
+
+    .reservation-item button {
+        width: 100%;
+        padding: 12px 0;
+    }
+
+    .rating-section {
+        width: 100%;
+    }
+
+    .rating-comment {
+        width: 90%;
+        height: 250px;
+        padding: 0px;
+    }
+
+    .star-icon {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .reservations-container {
+        padding: 40px;
+    }
+
+    .reservations-title {
+        font-size: 2.5rem;
+    }
+
+    .reservation-item {
+        padding: 20px;
+    }
+
+    .reservation-item button {
+        padding: 15px 30px;
+    }
+}

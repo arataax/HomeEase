@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import './Recomendations.css';
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 const Recommendations = () => {
   const [products, setProducts] = useState([]);
@@ -8,7 +10,8 @@ const Recommendations = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showFiltered, setShowFiltered] = useState(false);
-  const [showFilterMenu, setShowFilterMenu] = useState(false); // Estado para mostrar/ocultar el filtro
+  const [showFilterMenu, setShowFilterMenu] = useState(false);
+  const [ratings, setRatings] = useState({});
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -30,13 +33,38 @@ const Recommendations = () => {
           throw new Error("Error al obtener productos aleatorios");
         }
         const data = await response.json();
-        setProducts(data.slice(0, 10)); // Limita a 10 productos
+        setProducts(data.slice(0, 10));
       } catch (error) {
         console.error(error);
       }
     };
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      const fetchRatings = async () => {
+        const ratingData = {};
+        for (const product of products) {
+          try {
+            const [avgRes, countRes] = await Promise.all([
+              axios.get(`http://localhost:8080/api/ratings/product/${product.id}/average`),
+              axios.get(`http://localhost:8080/api/ratings/product/${product.id}/count`)
+            ]);
+            ratingData[product.id] = {
+              average: avgRes.data || 0,
+              count: countRes.data || 0
+            };
+          } catch (err) {
+            console.error("Error al cargar rating del producto:", product.id, err);
+          }
+        }
+        setRatings(ratingData);
+      };
+
+      fetchRatings();
+    }
+  }, [products]);
 
   const handleCategoryChange = (e) => {
     const { value, checked } = e.target;
@@ -62,8 +90,8 @@ const Recommendations = () => {
   };
 
   const handleClearFilters = () => {
-    setSelectedCategories([]); // Vaciar categorías seleccionadas
-    setShowFiltered(false); // Mostrar todos los productos
+    setSelectedCategories([]);
+    setShowFiltered(false);
   };
 
   const toggleFilterMenu = () => {
@@ -73,15 +101,11 @@ const Recommendations = () => {
   return (
     <div className="recomendations-container">
       <h1>Productos</h1>
-      
-      {/* Botón con el ícono para mostrar/ocultar el filtro */}
       <div className="filter-toggle-container">
         <button onClick={toggleFilterMenu} className="filter-toggle-button">
           Filtrar <i className="fa fa-filter" aria-hidden="true"></i>
         </button>
       </div>
-
-      {/* Filtro por categoría (se despliega al hacer clic en el ícono de Filtrar) */}
       {showFilterMenu && (
         <div className="filter-container">
           <h3>Filtrar por categoría</h3>
@@ -91,7 +115,7 @@ const Recommendations = () => {
                 <input
                   type="checkbox"
                   value={category.id}
-                  checked={selectedCategories.includes(category.id.toString())}  // Esto asegura que el checkbox esté marcado si está en selectedCategories
+                  checked={selectedCategories.includes(category.id.toString())}
                   onChange={handleCategoryChange}
                 />
                 {category.name}
@@ -108,8 +132,6 @@ const Recommendations = () => {
           </div>
         </div>
       )}
-
-      {/* Mostrar la cantidad de productos filtrados */}
       {showFiltered && (
         <div className="filtered-products-count">
           <p>
@@ -117,11 +139,24 @@ const Recommendations = () => {
           </p>
         </div>
       )}
-
-      {/* Mostrar los productos */}
       <div className="recommendations-grid">
         {(showFiltered ? filteredProducts : products).map((product) => (
           <div className="product-card" key={product.id}>
+            <div className="product-rating-summary">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <FontAwesomeIcon
+                  key={star}
+                  icon={faStar}
+                  className="rating-star"
+                  style={{
+                    color: (ratings[product.id]?.average || 0) >= star ? '#FFD700' : '#CCC'
+                  }}
+                />
+              ))}
+              <span className="rating-value">
+                {(ratings[product.id]?.average || 0).toFixed(1)} ({ratings[product.id]?.count || 0})
+              </span>
+            </div>
             <div className="product-image-container">
               {product.imageUrl && (
                 <img

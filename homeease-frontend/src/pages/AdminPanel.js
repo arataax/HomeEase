@@ -13,8 +13,8 @@ const AdminPanel = () => {
       setIsMobile(window.innerWidth <= 768);
     };
 
-    checkScreenSize(); // Revisar al cargar
-    window.addEventListener('resize', checkScreenSize); // Revisar en cambios
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
 
     return () => {
       window.removeEventListener('resize', checkScreenSize);

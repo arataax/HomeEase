@@ -1,10 +1,13 @@
 package com.homeease.controller;
 
-import com.homeease.dto.AvailabilityResponse;
 import com.homeease.dto.CategoryUpdateRequest;
+import com.homeease.exceptions.ResourceNotFoundException;
 import com.homeease.model.Category;
 import com.homeease.model.Product;
+import com.homeease.model.Reservation;
 import com.homeease.repository.CategoryRepository;
+import com.homeease.repository.ProductRepository;
+import com.homeease.repository.ReservationRepository;
 import com.homeease.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,6 +35,12 @@ public class ProductController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductRepository productRepository ;
+
+    @Autowired
+    private ReservationRepository reservationRepository ;
 
     @GetMapping
     public List<Product> getAllProducts() {
@@ -154,14 +163,54 @@ public class ProductController {
         return productService.searchProductsByName(name);
     }
 
-    @GetMapping("/{id}/availability")
-    public ResponseEntity<AvailabilityResponse> getProductAvailability(@PathVariable Long id) {
-        try {
-            AvailabilityResponse availability = productService.getProductAvailability(id);
-            return ResponseEntity.ok(availability);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    // Método para obtener las fechas ocupadas de un producto
+    @GetMapping("/{productId}/occupied-dates")
+    public ResponseEntity<List<String>> getOccupiedDates(@PathVariable Long productId) {
+        List<String> occupiedDates = productService.getOccupiedDates(productId);
+        return ResponseEntity.ok(occupiedDates);
+    }
+
+    // Método para obtener las fechas disponibles de un producto
+    @GetMapping("/{productId}/available-dates")
+    public ResponseEntity<List<String>> getAvailableDates(@PathVariable Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        // Obtener las reservas para este producto
+        List<Reservation> reservations = reservationRepository.findByProductId(productId);
+
+        // Creamos una lista para las fechas disponibles
+        List<String> availableDates = new ArrayList<>();
+
+        // Recorremos las fechas disponibles según available_from y available_until
+        LocalDate startDate = product.getAvailableFrom();
+        LocalDate endDate = product.getAvailableUntil();
+
+        while (!startDate.isAfter(endDate)) {
+            // Verificar si la fecha está ocupada (compara con las fechas de las reservas)
+            boolean isOccupied = false;
+
+            for (Reservation reservation : reservations) {
+                LocalDate reservationStartDate = reservation.getStartDate();
+                LocalDate reservationEndDate = reservation.getEndDate();
+
+                // Si la fecha de disponibilidad está dentro de las fechas de la reserva
+                if (!startDate.isBefore(reservationStartDate) && !startDate.isAfter(reservationEndDate)) {
+                    isOccupied = true;
+                    break;  // Ya encontramos que la fecha está ocupada, no es necesario seguir buscando
+                }
+            }
+
+            // Si no está ocupada, la agregamos a las fechas disponibles
+            if (!isOccupied) {
+                availableDates.add(startDate.toString());
+            }
+
+            // Siguiente día
+            startDate = startDate.plusDays(1);
         }
+
+        return ResponseEntity.ok(availableDates);
     }
 }
 

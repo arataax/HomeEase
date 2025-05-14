@@ -1,11 +1,9 @@
-/* Contenedor principal de la lista */
 .user-list-container {
   margin: 20px;
   margin-top: 50px;
   padding: 20px;
 }
 
-/* Título */
 .user-list-title {
   font-size: 2rem;
   color: #000000;
@@ -13,14 +11,14 @@
   text-align: center;
 }
 
-/* Estilos para la tabla */
 .user-list-table {
   width: 100%;
   border-collapse: collapse;
   background-color: #e4e4e4;
 }
 
-.user-list-table th, .user-list-table td {
+.user-list-table th,
+.user-list-table td {
   padding: 12px 20px;
   text-align: center;
   border: 1px solid #1b1b1b;
@@ -31,7 +29,6 @@
   color: white;
 }
 
-/* Estilos para los botones */
 .user-list-button {
   padding: 6px 12px;
   border: none;
@@ -50,15 +47,15 @@
   color: white;
 }
 
-.make-admin-btn:hover{
+.make-admin-btn:hover {
   background-color: #ff5100;
 }
-.remove-admin-btn:hover{
+
+.remove-admin-btn:hover {
   background-color: #fa2415;
 }
 
 .admin-row {
-  background-color: #00ff00b6; /* Color de resaltado para administradores */
-  font-weight: bold; /* Resaltar con un texto en negrita */
+  background-color: #00ff00b6;
+  font-weight: bold;
 }
-  

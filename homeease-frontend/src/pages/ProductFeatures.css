@@ -1,5 +1,5 @@
 .product-features-container {
-    height: auto;
+  height: auto;
 }
 
 .title {
@@ -96,23 +96,26 @@
   font-size: 30px;
 }
 
-.edit-button{
+.edit-button {
   background-color: #008cff;
 }
-.edit-button:hover{
+
+.edit-button:hover {
   background-color: #008cffa4;
 }
 
-.delete-button{
+.delete-button {
   background-color: #ff2c2c;
 }
-.delete-button:hover{
+
+.delete-button:hover {
   background-color: #ff0e0e;
 }
 
-.save-button{
+.save-button {
   background-color: #1adf00;
 }
-.save-button:hover{
+
+.save-button:hover {
   background-color: #00b60f;
 }

@@ -9,7 +9,7 @@ const AddProduct = () => {
     description: "",
     price: "",
     stock: "",
-    categoryId: "", // Agregado para manejar la categoría
+    categoryId: "",
   });
 
   const [file, setFile] = useState(null);
@@ -18,9 +18,8 @@ const AddProduct = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Detectar si el usuario está en un dispositivo móvil
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768); // Cambiar a true si el ancho de pantalla es menor o igual a 768px
+      setIsMobile(window.innerWidth <= 768);
     };
 
     checkIfMobile();
@@ -38,7 +37,7 @@ const AddProduct = () => {
       .catch(error => {
         console.error("Error al cargar categorías:", error);
       });
-  }, []);  
+  }, []);
 
   const handleChange = (e) => {
     setProduct({
@@ -55,30 +54,29 @@ const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const formData = new FormData();
     formData.append("name", product.name);
     formData.append("description", product.description);
     formData.append("price", product.price);
     formData.append("stock", product.stock);
-    formData.append("categoryId", product.categoryId); // Agregar categoría al FormData
+    formData.append("categoryId", product.categoryId);
     if (file) {
       formData.append("image", file);
     }
-  
+
     try {
       const response = await fetch("http://localhost:8080/api/products/add", {
         method: "POST",
         body: formData,
       });
-    
+
       if (!response.ok) {
-        const errorMessage = await response.text(); // Captura el mensaje del backend
+        const errorMessage = await response.text();
         throw new Error(errorMessage);
       }
-    
+
       alert("Producto guardado correctamente");
-      // Resetear el estado del producto y del archivo seleccionado
       setProduct({
         name: "",
         description: "",
@@ -88,12 +86,12 @@ const AddProduct = () => {
       });
       setFile(null);
       if (fileInputRef.current) {
-        fileInputRef.current.value = "";  // Restablece el campo de archivo visualmente
+        fileInputRef.current.value = "";
       }
     } catch (error) {
-        console.error("Error al guardar el producto:", error);
-        alert(error.message);
-      }
+      console.error("Error al guardar el producto:", error);
+      alert(error.message);
+    }
   };
 
   if (!user || !user.admin) {
@@ -104,7 +102,6 @@ const AddProduct = () => {
     )
   }
 
-  // Mostrar un mensaje si se accede desde un dispositivo móvil
   if (isMobile) {
     return (
       <div className="mobile-message">
@@ -146,7 +143,7 @@ const AddProduct = () => {
           onChange={handleChange}
         />
         <select
-          name="categoryId"  // Asegúrate de que el nombre coincida con el estado
+          name="categoryId"
           value={product.categoryId}
           onChange={handleChange}
         >

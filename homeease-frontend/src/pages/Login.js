@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Login.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { useAuth } from '../components/AuthContext'; // Ajusta la ruta si es necesario
+import { useAuth } from '../components/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
@@ -25,8 +25,8 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:8080/api/users/login', credentials);
             if (response.data) {
-                login(response.data);  // Asegúrate de que esta función establece el usuario en el contexto global
-                navigate('/');  // Redirige a la página principal
+                login(response.data);
+                navigate('/');
             } else {
                 setError('Error en la autenticación. Verifique sus credenciales.');
             }

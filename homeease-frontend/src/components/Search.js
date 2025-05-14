@@ -1,22 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Search.css';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 const Search = () => {
   const [query, setQuery] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [products, setProducts] = useState([]); // Estado para almacenar los productos
+  const [products, setProducts] = useState([]);
+  const [ratings, setRatings] = useState({});
 
-  const suggestionsRef = useRef(); // Referencia al contenedor de sugerencias
-  const inputRef = useRef(); // Referencia al input
-  const searchContainerRef = useRef(); // Referencia al contenedor de búsqueda
+  const suggestionsRef = useRef();
+  const inputRef = useRef();
+  const searchContainerRef = useRef();
 
-  // Manejar la búsqueda de productos cuando se presiona Enter
   const handleSearch = async (e) => {
     e.preventDefault();
-    setSuggestions([]); // Limpiar sugerencias cuando se haga clic en el botón de búsqueda
+    setSuggestions([]);
     try {
       const response = await axios.get('http://localhost:8080/api/products/search', {
         params: {
@@ -25,54 +27,75 @@ const Search = () => {
           endDate,
         },
       });
-      setProducts(response.data); // Guardamos los productos devueltos en el estado
+      setProducts(response.data);
     } catch (error) {
       console.error("Error al buscar productos:", error);
     }
   };
 
-  // Manejar la búsqueda de sugerencias mientras el usuario escribe
   const handleQueryChange = async (e) => {
     setQuery(e.target.value);
-    if (e.target.value.length > 2) { // Realizar la búsqueda de sugerencias si el texto tiene más de 2 caracteres
+    if (e.target.value.length > 2) {
       try {
         const response = await axios.get('http://localhost:8080/api/products/search/suggestions', {
           params: {
-            name: e.target.value, // Buscar productos que coincidan parcialmente
+            name: e.target.value,
           },
         });
-        setSuggestions(response.data); // Actualizar las sugerencias
+        setSuggestions(response.data);
       } catch (error) {
         console.error("Error al obtener sugerencias:", error);
       }
     } else {
-      setSuggestions([]); // Limpiar sugerencias si el texto tiene 2 o menos caracteres
+      setSuggestions([]);
     }
   };
 
-  // Manejar clic en una sugerencia
   const handleSuggestionClick = (suggestion) => {
-    setQuery(suggestion.name); // Completa el input con el valor de la sugerencia
-    setSuggestions([]); // Limpia las sugerencias
+    setQuery(suggestion.name);
+    setSuggestions([]);
   };
 
-  // Manejar el clic fuera del contenedor de búsqueda para ocultar las sugerencias
   const handleClickOutside = (e) => {
     if (
       searchContainerRef.current &&
-      !searchContainerRef.current.contains(e.target) // Verifica si el clic fue fuera del contenedor de búsqueda
+      !searchContainerRef.current.contains(e.target)
     ) {
-      setSuggestions([]); // Oculta las sugerencias
+      setSuggestions([]);
     }
   };
 
-  // Agregar y limpiar el eventListener para clics fuera
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      const fetchRatings = async () => {
+        const ratingData = {};
+        for (const product of products) {
+          try {
+            const [avgRes, countRes] = await Promise.all([
+              axios.get(`http://localhost:8080/api/ratings/product/${product.id}/average`),
+              axios.get(`http://localhost:8080/api/ratings/product/${product.id}/count`)
+            ]);
+            ratingData[product.id] = {
+              average: avgRes.data || 0,
+              count: countRes.data || 0
+            };
+          } catch (err) {
+            console.error("Error al cargar rating del producto:", product.id, err);
+          }
+        }
+        setRatings(ratingData);
+      };
+
+      fetchRatings();
+    }
+  }, [products]);
 
   return (
     <div className="search-container" ref={searchContainerRef}>
@@ -85,15 +108,13 @@ const Search = () => {
           onChange={handleQueryChange}
           className="search-input"
         />
-
-        {/* Mostrar las sugerencias debajo del campo de búsqueda */}
         {suggestions.length > 0 && (
           <div className="suggestions-list" ref={suggestionsRef}>
             {suggestions.map((suggestion) => (
               <div
                 key={suggestion.id}
                 className="suggestion-item"
-                onClick={() => handleSuggestionClick(suggestion)} // Completar el input al hacer clic
+                onClick={() => handleSuggestionClick(suggestion)}
               >
                 {suggestion.name}
               </div>
@@ -117,11 +138,24 @@ const Search = () => {
 
         <button type="submit" className="search-button">Buscar</button>
       </form>
-
-      {/* Mostrar los productos relacionados al hacer la búsqueda */}
       <div className="product-list">
         {products.map((product) => (
           <div className="product-card" key={product.id}>
+            <div className="product-rating-summary">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <FontAwesomeIcon
+                  key={star}
+                  icon={faStar}
+                  className="rating-star"
+                  style={{
+                    color: (ratings[product.id]?.average || 0) >= star ? '#FFD700' : '#CCC'
+                  }}
+                />
+              ))}
+              <span className="rating-value">
+                {(ratings[product.id]?.average || 0).toFixed(1)} ({ratings[product.id]?.count || 0})
+              </span>
+            </div>
             <div className="product-image-container">
               {product.imageUrl && (
                 <img

@@ -26,19 +26,14 @@ const Register = () => {
             return;
         }
         try {
-            // Registro del usuario
             const response = await axios.post('http://localhost:8080/api/users/register', userData);
             console.log(response.data);
             alert('Usuario registrado con éxito!');
 
-            // Obtener la lista de usuarios actualizada después del registro
             const usersResponse = await axios.get("http://localhost:8080/api/users");
             const usersFromAPI = usersResponse.data;
 
-            // Actualizar el localStorage con los nuevos usuarios
             localStorage.setItem('users', JSON.stringify(usersFromAPI));
-
-            // Redirigir al login
             navigate('/login');
         } catch (err) {
             setError(err.response.data.message || 'Error al registrar el usuario');
@@ -84,7 +79,7 @@ const Register = () => {
                         />
                         <input
                             className='register-input-password'
-                            type={showPassword ? "text" : "password"} 
+                            type={showPassword ? "text" : "password"}
                             name="password"
                             value={userData.password}
                             onChange={handleChange}

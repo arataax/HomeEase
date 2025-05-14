@@ -12,19 +12,18 @@ const AdminCategories = () => {
 
     useEffect(() => {
         const checkScreenSize = () => {
-          setIsMobile(window.innerWidth <= 768);
+            setIsMobile(window.innerWidth <= 768);
         };
-    
-        checkScreenSize(); // Revisar al cargar
-        window.addEventListener('resize', checkScreenSize); // Revisar en cambios
-    
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
         return () => {
-          window.removeEventListener('resize', checkScreenSize);
+            window.removeEventListener('resize', checkScreenSize);
         };
-      }, []);
+    }, []);
 
     useEffect(() => {
-        // Traer todas las categorías del backend
         axios.get('http://localhost:8080/api/categories')
             .then(response => {
                 setCategories(response.data);
@@ -36,17 +35,15 @@ const AdminCategories = () => {
 
     const handleDeleteClick = (categoryId) => {
         const selectedCategory = categories.find(category => category.id === categoryId);
-        setCategoryToDelete(selectedCategory); // Almacenar la categoría completa
+        setCategoryToDelete(selectedCategory);
         setIsDeleteModalOpen(true);
     };
 
     const handleConfirmDelete = () => {
-        // Enviar la solicitud para eliminar la categoría
         axios.delete(`http://localhost:8080/api/categories/${categoryToDelete.id}`)
             .then(response => {
-                // Actualizar la lista de categorías después de eliminar
                 setCategories(categories.filter(category => category.id !== categoryToDelete.id));
-                setIsDeleteModalOpen(false); // Cerrar el modal
+                setIsDeleteModalOpen(false);
             })
             .catch(error => {
                 console.error('Error deleting category:', error);
@@ -54,22 +51,22 @@ const AdminCategories = () => {
     };
 
     const handleCancelDelete = () => {
-        setIsDeleteModalOpen(false); // Cerrar el modal sin hacer nada
+        setIsDeleteModalOpen(false);
     };
 
     if (isMobile) {
         return (
-          <div className="admin-message">
-            <h1>Panel de administración no disponible en dispositivos móviles.</h1>
-          </div>
+            <div className="admin-message">
+                <h1>Panel de administración no disponible en dispositivos móviles.</h1>
+            </div>
         );
     }
 
     if (!user || !user.admin) {
         return (
-          <div className="admin-message">
-            <p>No tienes permisos para acceder a esta página.</p>
-          </div>
+            <div className="admin-message">
+                <p>No tienes permisos para acceder a esta página.</p>
+            </div>
         )
     }
 
@@ -85,8 +82,6 @@ const AdminCategories = () => {
                     </li>
                 ))}
             </ul>
-
-            {/* Modal de confirmación */}
             {isDeleteModalOpen && (
                 <div className="modal">
                     <div className="modal-content">

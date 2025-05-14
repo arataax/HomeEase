@@ -1,44 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './UserList.css'; // Crea este archivo para los estilos
+import './UserList.css';
 import { useAuth } from '../components/AuthContext';
 
 const UserList = () => {
-  const [users, setUsers] = useState([]);  // State para almacenar los usuarios
-  const [isMobile, setIsMobile] = useState(false); // State para detectar si es móvil
+  const [users, setUsers] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
-    // Detectar si el usuario está en un dispositivo móvil
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768); // Cambia a true si el ancho de pantalla es menor o igual a 768px
+      setIsMobile(window.innerWidth <= 768);
     };
 
     checkIfMobile();
-    window.addEventListener('resize', checkIfMobile); // Listener para cambio de tamaño de la ventana
+    window.addEventListener('resize', checkIfMobile);
 
-    return () => window.removeEventListener('resize', checkIfMobile); // Limpiar listener
+    return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
-  // Cargar los usuarios al montar el componente
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        // Intentar obtener los usuarios desde el localStorage
         const storedUsers = localStorage.getItem('users');
         if (storedUsers) {
-          // Si están en el localStorage, los cargamos
-          setUsers(JSON.parse(storedUsers)); 
+          setUsers(JSON.parse(storedUsers));
         } else {
-          // Si no están en el localStorage, los obtenemos desde el backend
           const response = await axios.get("http://localhost:8080/api/users");
           const usersFromAPI = response.data;
 
-          // Actualizamos el estado con los usuarios del backend
-          setUsers(usersFromAPI); 
+          setUsers(usersFromAPI);
 
-          // Guardamos los usuarios en el localStorage para persistencia
-          localStorage.setItem('users', JSON.stringify(usersFromAPI)); 
+          localStorage.setItem('users', JSON.stringify(usersFromAPI));
         }
       } catch (error) {
         console.error("Error al cargar usuarios", error);
@@ -46,7 +39,7 @@ const UserList = () => {
     };
 
     fetchUsers();
-  }, []); // Solo se ejecuta cuando el componente se monta
+  }, []);
 
   if (isMobile) {
     return (
@@ -71,13 +64,11 @@ const UserList = () => {
         { isAdmin: true }
       );
 
-      // Actualizamos el estado de los usuarios en el array
       const updatedUsers = users.map(u =>
         u.id === userId ? { ...u, isAdmin: true } : u
       );
       setUsers(updatedUsers);
 
-      // Guardar la lista actualizada en localStorage
       localStorage.setItem('users', JSON.stringify(updatedUsers));
 
       alert("El usuario ahora es admin!");
@@ -94,13 +85,11 @@ const UserList = () => {
         { isAdmin: false }
       );
 
-      // Actualizamos el estado de los usuarios en el array
       const updatedUsers = users.map(u =>
         u.id === userId ? { ...u, isAdmin: false } : u
       );
       setUsers(updatedUsers);
 
-      // Guardar la lista actualizada en localStorage
       localStorage.setItem('users', JSON.stringify(updatedUsers));
 
       alert("El usuario ya no es admin!");

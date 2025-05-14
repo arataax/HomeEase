@@ -1,4 +1,3 @@
-/* Estilo general del Navbar */
 .navbar {
   position: fixed;
   top: 0;
@@ -8,14 +7,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #000;
+  background-color: #f7f7f7;
   color: #fff;
   padding: 0 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.253);
   z-index: 1000;
 }
 
-/* Sección izquierda (logo y título) */
 .navbar-left {
   display: flex;
   align-items: center;
@@ -23,7 +21,7 @@
 
 .navbar-logo {
   text-decoration: none;
-  color: #fff;
+  color: #333;
   display: flex;
   align-items: center;
 }
@@ -38,20 +36,17 @@
   font-weight: bold;
 }
 
-/* Botones */
 .navbar-right {
   display: flex;
   align-items: center;
   gap: 20px;
-  /* Separación de los botones del borde derecho */
 }
 
-/* Toggle button para pantallas pequeñas */
 .navbar-toggle {
   display: none;
   background-color: transparent;
   border: none;
-  color: #fff;
+  color: #000000;
   font-size: 1.5rem;
   cursor: pointer;
 }
@@ -65,9 +60,10 @@
 
 .navbar-btn {
   padding: 8px 15px;
+  margin: 0;
   border: none;
   border-radius: 5px;
-  background-color: #4d4d4d;
+  background-color: #4A90E2;
   color: #fff;
   font-size: 1rem;
   cursor: pointer;
@@ -75,7 +71,7 @@
 }
 
 .navbar-btn:hover {
-  background-color: #818181;
+  background-color: #357ABD;
 }
 
 .navbar-admin-btn {
@@ -83,13 +79,13 @@
   width: 90%;
   text-align: center;
   border: none;
-  background-color: #ff5100d5;
+  background-color: #4A90E2;
   cursor: pointer;
   color: #ffffff;
 }
 
 .navbar-admin-btn:hover {
-  background-color: #ff9100;
+  background-color: #357ABD;
 }
 
 .navbar-user-favorite {
@@ -97,52 +93,56 @@
   width: 90%;
   text-align: center;
   border: none;
-  background-color: #ff6e69d5;
+  background-color: #4A90E2;
   cursor: pointer;
   color: #ffffff;
 }
 
-.navbar-user-favorite:hover{
-  background-color: #ff3b34d5;
+.navbar-user-favorite:hover {
+  background-color: #357ABD;
+}
+
+.navbar-user-reservations {
+  margin: 10px;
+  width: 90%;
+  text-align: center;
+  border: none;
+  background-color: #4A90E2;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.navbar-user-reservations:hover {
+  background-color: #357ABD;
 }
 
 .navbar-user-info {
   width: 50px;
   height: 50px;
-  background-color: #00ad6d;
-  /* Añade tu color preferido */
+  background-color: #4A90E2;
   color: white;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  /* Ajusta el tamaño del texto según necesites */
   cursor: pointer;
   position: relative;
-  /* Importante para posicionar el dropdown */
 }
 
 .letters {
-  margin-bottom: 10px;
-  /* Ajusta según sea necesario */
+  margin-bottom: 3px;
 }
 
 .navbar-dropdown {
   position: absolute;
   width: 13%;
   top: 100%;
-  /* Posiciona el dropdown justo debajo del círculo */
   right: 0;
   margin-right: 40px;
-  background: rgb(0, 0, 0);
-  /* Fondo del dropdown */
-  border: 1px solid #000000;
-  /* Bordes opcionales */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.452);
-  /* Sombra para el dropdown */
+  background: #f7f7f7;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.473);
   z-index: 1000;
-  /* Asegura que el dropdown esté sobre otros elementos */
 }
 
 .navbar-user-btn {
@@ -156,20 +156,19 @@
   font-weight: bolder;
 }
 
-.navbar-user-btn:hover{
-  background-color: rgba(53, 53, 53, 0.822);;
+.navbar-user-btn:hover {
+  background-color: rgba(53, 53, 53, 0.822);
+  ;
   color: #ff0000;
 }
 
-.navbar-btn:hover {
-  background-color: #f0f0f0;
-}
-
-
-/* Responsive styles */
 @media (max-width: 768px) {
   .navbar-right {
     flex-direction: column;
+  }
+
+  .navbar-btn {
+    margin-bottom: 10px;
   }
 
   .navbar-menu {
@@ -177,10 +176,10 @@
     display: none;
     justify-content: center;
     position: absolute;
-    top: 60px;
+    top: 80px;
     right: 20px;
-    background-color: #000;
     border-radius: 5px;
+    background-color: #F7F9FA;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     padding: 0px;
   }

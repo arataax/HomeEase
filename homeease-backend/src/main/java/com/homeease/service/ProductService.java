@@ -1,6 +1,7 @@
 package com.homeease.service;
 
 import com.homeease.dto.AvailabilityResponse;
+import com.homeease.exceptions.ResourceNotFoundException;
 import com.homeease.model.Product;
 import com.homeease.model.Reservation;
 import com.homeease.repository.ProductRepository;
@@ -76,32 +77,52 @@ public class ProductService {
         return productRepository.findByNameContainingIgnoreCase(name); // Esta es una búsqueda que no diferencia mayúsculas y minúsculas
     }
 
-    // Método para obtener la disponibilidad del producto
-    public AvailabilityResponse getProductAvailability(Long productId) throws Exception {
-        // Obtener el producto
+    // Método para obtener las fechas ocupadas de un producto
+    public List<String> getOccupiedDates(Long productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new Exception("Producto no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        // Fechas disponibles
-        LocalDate availableFrom = product.getAvailableFrom();
-        LocalDate availableUntil = product.getAvailableUntil();
-
-        // Consultar las reservas
+        // Obtener todas las reservas para ese producto
         List<Reservation> reservations = reservationRepository.findByProductId(productId);
-        List<LocalDate> occupiedDates = new ArrayList<>();
+
+        // Crear una lista de fechas ocupadas
+        List<String> occupiedDates = new ArrayList<>();
 
         for (Reservation reservation : reservations) {
-            occupiedDates.add(reservation.getReservedDate());  // Añadir las fechas reservadas
+            LocalDate startDate = reservation.getStartDate();
+            LocalDate endDate = reservation.getEndDate();
+
+            // Agregar todas las fechas entre startDate y endDate a la lista de fechas ocupadas
+            while (!startDate.isAfter(endDate)) {
+                occupiedDates.add(startDate.toString());
+                startDate = startDate.plusDays(1);
+            }
         }
 
-        // Generar la lista de fechas disponibles entre available_from y available_until
-        List<LocalDate> availableDates = new ArrayList<>();
-        for (LocalDate date = availableFrom; !date.isAfter(availableUntil); date = date.plusDays(1)) {
-            availableDates.add(date);
+        return occupiedDates; // Devolver las fechas ocupadas
+    }
+
+    // Método para obtener las fechas disponibles de un producto
+    public List<String> getAvailableDates(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        // Obtener todas las fechas ocupadas para ese producto
+        List<String> occupiedDates = getOccupiedDates(productId);
+
+        // Crear un listado de fechas disponibles (por ejemplo, fechas del mes actual o futuro)
+        List<String> availableDates = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+        LocalDate endOfMonth = today.withDayOfMonth(today.lengthOfMonth());
+
+        while (!today.isAfter(endOfMonth)) {
+            if (!occupiedDates.contains(today.toString())) {
+                availableDates.add(today.toString());
+            }
+            today = today.plusDays(1);
         }
 
-        // Retornar las fechas disponibles y ocupadas
-        return new AvailabilityResponse(availableDates, occupiedDates);
+        return availableDates; // Devolver las fechas disponibles
     }
 }
 

@@ -1,0 +1,75 @@
+.reservation-confirmation-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  background-color: #f7f7f7;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  padding: 20px;
+}
+
+.reservation-confirmation-container h1 {
+  font-size: 2rem;
+  color: #4caf50;
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+.reservation-confirmation-container p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.reservation-confirmation-container button {
+  background-color: #4caf50;
+  color: white;
+  padding: 15px 30px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.reservation-confirmation-container button:hover {
+  background-color: #45a049;
+}
+
+.checkmark-container {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  animation: checkmark-animation 2s ease-in-out;
+}
+
+@keyframes checkmark-animation {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.1) rotate(180deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
+
+.checkmark-container svg {
+  width: 150px;
+  height: 150px;
+  fill: #4caf50;
+  stroke: white;
+  stroke-width: 2;
+}

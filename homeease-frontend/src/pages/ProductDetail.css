@@ -1,20 +1,15 @@
-body{
-  background-color: #e0e0e0;
-}
-
-/* Estilo general del contenedor del producto */
 .product-detail-container {
   padding: 20px;
   font-family: Arial, sans-serif;
 }
 
-/* Estilo para el header del producto */
+
 .product-detail-header {
   display: flex;
-  justify-content: center; /* Centra el título */
+  justify-content: center;
   align-items: center;
   padding: 20px;
-  position: relative; /* Para posicionar el botón absolutamente en el borde */
+  position: relative;
 }
 
 .product-title {
@@ -33,6 +28,7 @@ body{
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
+  justify-content: flex-end;
 }
 
 .back-button:hover {
@@ -40,7 +36,7 @@ body{
   color: rgb(31, 28, 206);
 }
 
-/* Estilo para el cuerpo del producto */
+
 .product-detail-body {
   display: flex;
   flex-direction: column;
@@ -64,7 +60,6 @@ body{
   margin: 0;
 }
 
-/* Estilo de la sección de características */
 .product-features-product-detail {
   width: 100%;
   max-width: 800px;
@@ -112,7 +107,6 @@ body{
   text-align: center;
 }
 
-/* Estilo del calendario */
 .product-calendar {
   display: flex;
   flex-direction: column;
@@ -122,34 +116,44 @@ body{
   max-width: 600px;
   margin: 0 auto;
 }
+
 .product-calendar h2 {
   margin: 0;
+  color: #333;
 }
+
 .product-calendar h4 {
   font-weight: lighter;
+  color: #666;
 }
 
 .available-date {
-  background-color: #60ff65b7 !important; /* Verde para fechas disponibles */
+  background-color: #60ff65b7 !important;
   color: rgb(0, 0, 0) !important;
 }
+
 .available-date:hover {
-  background-color: #3adb3f !important; /* Verde para fechas disponibles */
+  background-color: #3adb3f !important;
 }
 
+/* Estilo para fechas ocupadas */
 .occupied-date {
-  background-color: #f44336 !important;  /* Rojo para fechas ocupadas */
+  background-color: #f44336 !important;
   color: white !important;
 }
 
-/* Estilos adicionales si es necesario */
+.occupied-date:hover {
+  background-color: #ff2718 !important;
+  color: white !important;
+}
+
 .react-calendar {
   width: 100%;
   max-width: 500px;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .favorite-icon-container {
@@ -171,13 +175,13 @@ body{
 }
 
 .favorite-icon {
-  font-size: 2rem; /* Tamaño del icono del corazón */
+  font-size: 2rem;
   transition: color 0.3s ease;
   margin-top: 10px;
 }
 
 .favorite-button:hover::after {
-  content: "Marcar producto como favorito"; /* Texto que aparece al pasar el mouse */
+  content: "Marcar producto como favorito";
   position: absolute;
   top: -15px;
   left: 50%;
@@ -191,11 +195,11 @@ body{
 }
 
 .favorite-button .favorite-icon {
-  color: #ff0000; /* Color del corazón cuando no está marcado */
+  color: #ff0000;
 }
 
 .favorite-button.liked .favorite-icon {
-  color: red; /* Color del corazón cuando está marcado */
+  color: red;
 }
 
 .product-policies {
@@ -214,14 +218,12 @@ body{
   color: #333;
 }
 
-/* Contenedor que agrupa las políticas */
 .policy-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 
-/* Estilo de cada política */
 .policy-item {
   padding: 15px;
   border-radius: 8px;
@@ -240,7 +242,6 @@ body{
   line-height: 1.6;
 }
 
-/* Contenedor del botón */
 .share-button-container {
   position: relative;
   margin-top: 20px;
@@ -248,7 +249,6 @@ body{
   justify-content: center;
 }
 
-/* Botón de compartir */
 .share-button {
   background-color: transparent;
   border: none;
@@ -257,14 +257,14 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #333;
 }
 
-/* Tooltip o mensaje sobre el botón */
 .share-button-container .tooltip {
   visibility: hidden;
   opacity: 0;
   position: absolute;
-  bottom: 85%; /* Se coloca arriba del botón */
+  bottom: 85%;
   left: 50%;
   transform: translateX(-50%);
   background-color: rgba(0, 0, 0, 0.7);
@@ -280,9 +280,24 @@ body{
   opacity: 1;
 }
 
+.reserve-button {
+  padding: 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.reserve-button:hover {
+  background-color: #218838;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
-  
+
 
   .product-title {
     font-size: 28px;
@@ -309,7 +324,7 @@ body{
     font-size: 24px;
   }
 
-  .product-features-product-detail{
+  .product-features-product-detail {
     width: 80%;
   }
 
@@ -318,7 +333,7 @@ body{
     width: 100%;
   }
 
-  .features-list-product-detail{
+  .features-list-product-detail {
     padding: 0;
   }
 
@@ -326,12 +341,10 @@ body{
     font-size: 1.5rem;
   }
 
-  /* Cambio en la distribución de las políticas: una sola columna */
   .policy-container {
     grid-template-columns: 1fr;
   }
 
-  /* Ajustes para las políticas individuales */
   .policy-item {
     padding: 12px;
   }
